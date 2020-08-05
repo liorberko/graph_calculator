@@ -3,7 +3,9 @@
 #include <iostream>
 #include <set>
 #include <utility>
- 
+#include <vector>
+#include "Exception.h"
+#include <cctype>
 
 class graph
 {
@@ -11,34 +13,29 @@ private:
     std::set<std::string> vertices ; 
     std::set<std::pair<std::string, std::string>> edges ; 
 
-    static bool isLegalInfo(const std::string& info);
-    static bool isLegalVerticName(const std::string& info);
+    void addEdge(std::string name);
+  //  void addEdge(const std::pair<std::string, std::string> name);
+    void addVertic(std::string name);
 public:
-    graph();
-    graph(const std::set<std::string>& vertices, const std::set<std::pair<std::string, std::string>>& edges);
-    graph(const std::string& info);
+    graph() = default;
+    graph(const std::set<std::string> vertices, const std::set<std::pair<std::string, std::string>> edges);
+    explicit graph(const std::string& info);
     graph(const graph& target);
-    ~graph();
+    ~graph() = default;
 
+    graph& operator=(const graph& target);
     graph operator+(const graph& target) const;
     graph operator^(const graph& target) const;
     graph operator-(const graph& target) const;
     graph operator*(const graph& target) const;
     graph operator!() const;
 
-    friend std::ostream operator<<(std::ostream out, graph& G1);
+    friend std::ostream& operator<<(std::ostream& out, graph& g1);
 
-    static void save(const graph G1, std::string filename);
+    static void save(const graph g1, std::string filename);
     static graph load(std::string filename);
 };
 
-graph::graph(/* args */)
-{
-}
-
-graph::~graph()
-{
-}
 
 
 #endif
