@@ -1,6 +1,7 @@
 #include "Graph.h"
 
-bool isLegalVerticName(std::string& name);
+std::string removeSpeces(const std::string text);
+bool isLegalVerticName(const std::string& name);
 bool isLegalEdgeName(std::string& name);
 
 graph::graph(const std::set<std::string> vertices, const std::set<std::pair<std::string, std::string>> edges) :
@@ -11,8 +12,8 @@ vertices(target.vertices), edges(target.edges) {}
 
 graph::graph(const std::string& info)
 {
-    bool is_a_vertic = true, is_first = true;
-    int line_counter =0, clos_counter =0;
+    bool is_a_vertic = true, is_first = true, edge_exists = false, secondery_comma = false;
+    int line_counter =0, clos_counter =0, angel_bracket_count = 0;
     std::string vertic;
     std::string edge;
 
@@ -51,10 +52,31 @@ graph::graph(const std::string& info)
         }
         else 
         {
-            if ((letter == ',') || ((letter == '}') && ((++clos_counter) < 2))){
+            if(letter == '<')
+            {
+                angel_bracket_count++;
+            }
+            if(letter == '>')
+            {
+                angel_bracket_count--;
+            }
+            if ((letter == ',') && (angel_bracket_count == 0))
+            {
+                secondery_comma = true;
+            }
+            if (((letter == ',') && (angel_bracket_count == 0) ) || ((letter == '}') && ((++clos_counter) < 2) && (edge_exists)))
+            {
+                if (secondery_comma && ((removeSpeces(edge)).size() == 0))
+                {
+                    throw ExtraComma();
+                }
                 addEdge(edge);
                 edge.clear();
                 continue;
+            }
+            if(letter != ' ')
+            {
+                edge_exists = true;
             }
             edge.push_back(letter);
             if (clos_counter > 1) {throw IllegalArgument();}
@@ -63,9 +85,9 @@ graph::graph(const std::string& info)
 }
 
 
-bool isLegalVerticName(std::string& name)
+bool isLegalVerticName(const std::string& name)
 {
-    std::string res;
+  //  std::string res;
     bool first_letter_apper = false;
     bool space_after_letter = false;
     int parenthesis_count = 0 ;
@@ -79,15 +101,15 @@ bool isLegalVerticName(std::string& name)
         if (letter != ' ')  
         {
             first_letter_apper = true;
-            if (space_after_letter){
+            if (space_after_letter)
+            {
                 return false;
             }
-            continue;
         }
         if (letter == '[')
         {
             parenthesis_count++;
-            res.push_back(letter);
+        //    res.push_back(letter);
             continue;
         }
         if (letter == ']')
@@ -97,7 +119,7 @@ bool isLegalVerticName(std::string& name)
                 return false;
             }
             parenthesis_count--;
-            res.push_back(letter);
+           // res.push_back(letter);
             continue;
         }
         if (letter == ';')
@@ -106,22 +128,22 @@ bool isLegalVerticName(std::string& name)
             {
                 return false;
             }
-            res.push_back(letter); 
+          //  res.push_back(letter); 
             continue;
         }
         if (((letter < 'a') && (letter > 'z')) && ((letter < 'A') && (letter > 'Z')))
         {
            return false;
         }
-        res.push_back(letter);
+    //    res.push_back(letter);
     }
-    if (res.size() == 0)
-    {
-        throw IllegalVerticName();
-    }
+  //  if (res.size() == 0)
+  //  {
+ //       throw IllegalVerticName();
+  //  }
     if (parenthesis_count == 0)
     {
-          name = res;
+  //        name = res;
           return true;
     }
     return false;
@@ -134,9 +156,22 @@ void graph::addVertic(std::string name)
     {
         throw IllegalVerticName();
     }
-    vertices.insert(name);
+    std::string new_name = removeSpeces(name); 
+    vertices.insert(new_name);
 }
 
+std::string removeSpeces(const std::string text)
+{
+    std::string res;
+    for (auto letter : text)
+    {
+        if (letter != ' ')
+        {
+            res += letter;
+        }
+    }
+    return res;
+}
 
 void graph::addEdge(std::string name)
 {
@@ -175,7 +210,7 @@ void graph::addEdge(std::string name)
                 throw IllegalEdgeName();
             }
             comma_apper = true;
-            if ((!isLegalVerticName(first_ver)) || (vertices.find(first_ver) == vertices.end()))
+            if ((!isLegalVerticName(first_ver)) || (vertices.find(removeSpeces(first_ver)) == vertices.end()))
             {
                 throw IllegalEdgeName();
             }
@@ -183,7 +218,7 @@ void graph::addEdge(std::string name)
         }
         if (letter == '>')
         {
-            if ((!isLegalVerticName(seconed_ver)) || (vertices.find(seconed_ver) == vertices.end()))
+            if ((!isLegalVerticName(seconed_ver)) || (vertices.find(removeSpeces(seconed_ver)) == vertices.end()))
             {
                 throw IllegalEdgeName();
             }
@@ -199,11 +234,17 @@ void graph::addEdge(std::string name)
             seconed_ver.push_back(letter);
         }
     }
+    first_ver = removeSpeces(first_ver);
+    seconed_ver = removeSpeces(seconed_ver);
     if (first_ver == seconed_ver)
     {
         throw SelfArc();
     }
     std::pair<std::string, std::string> new_egde (first_ver, seconed_ver);
+    if (edges.count(new_egde))
+    {
+        throw ParallelEdges();
+    }
     edges.insert(new_egde);
 }
 
@@ -211,6 +252,7 @@ graph& graph::operator=(const graph& target)
 {
     edges = target.edges;
     vertices = target.vertices;
+    return (*this);
 }
 
 graph graph::operator+(const graph& target) const
@@ -320,4 +362,5 @@ std::ostream& operator<<(std::ostream& out, graph& g1)
     {
         out << edge.first << ' ' << edge.second << std::endl ; 
     }
+    return out;
 }

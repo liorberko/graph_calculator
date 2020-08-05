@@ -51,4 +51,22 @@ public:
     const char* what() const noexcept override;
 };
 
+class ParallelEdges : public GraphException
+{ 
+    std::string message;
+public:
+    ParallelEdges();
+    ~ParallelEdges() = default;
+    const char* what() const noexcept override;
+};
+
+class ExtraComma : public GraphException
+{ 
+    std::string message;
+public:
+    ExtraComma();
+    ~ExtraComma() = default;
+    const char* what() const noexcept override;
+};
+
 #endif

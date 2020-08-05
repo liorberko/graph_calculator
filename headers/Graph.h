@@ -1,6 +1,7 @@
 #ifndef GRAFH_H
 #define GRAFH_H
 #include <iostream>
+#include <string>
 #include <set>
 #include <utility>
 #include <vector>

@@ -53,3 +53,25 @@ const char* SelfArc::what() const noexcept
 {
     return message.c_str();
 }
+
+/*********************************/
+/*        ParallelEdges        */
+/*********************************/
+ParallelEdges::ParallelEdges() :
+GraphException("ParallelEdges"), message(graph_error += exception_name) { }
+
+const char* ParallelEdges::what() const noexcept
+{
+    return message.c_str();
+}
+
+/*********************************/
+/*        ExtraComma        */
+/*********************************/
+ExtraComma::ExtraComma() :
+GraphException("ExtraComma"), message(graph_error += exception_name) { }
+
+const char* ExtraComma::what() const noexcept
+{
+    return message.c_str();
+}
