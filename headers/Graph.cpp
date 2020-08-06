@@ -3,6 +3,7 @@
 std::string removeSpeces(const std::string text);
 bool isLegalVerticName(const std::string& name);
 bool isLegalEdgeName(std::string& name);
+bool isSaveKey(const std::string name);
 
 graph::graph(const std::set<std::string> vertices, const std::set<std::pair<std::string, std::string>> edges) :
 vertices(vertices), edges(edges) { }
@@ -87,7 +88,6 @@ graph::graph(const std::string& info)
 
 bool isLegalVerticName(const std::string& name)
 {
-  //  std::string res;
     bool first_letter_apper = false;
     bool space_after_letter = false;
     int parenthesis_count = 0 ;
@@ -109,7 +109,6 @@ bool isLegalVerticName(const std::string& name)
         if (letter == '[')
         {
             parenthesis_count++;
-        //    res.push_back(letter);
             continue;
         }
         if (letter == ']')
@@ -119,7 +118,6 @@ bool isLegalVerticName(const std::string& name)
                 return false;
             }
             parenthesis_count--;
-           // res.push_back(letter);
             continue;
         }
         if (letter == ';')
@@ -128,22 +126,15 @@ bool isLegalVerticName(const std::string& name)
             {
                 return false;
             }
-          //  res.push_back(letter); 
             continue;
         }
         if (((letter < 'a') && (letter > 'z')) && ((letter < 'A') && (letter > 'Z')))
         {
            return false;
         }
-    //    res.push_back(letter);
     }
-  //  if (res.size() == 0)
-  //  {
- //       throw IllegalVerticName();
-  //  }
     if (parenthesis_count == 0)
     {
-  //        name = res;
           return true;
     }
     return false;
@@ -156,7 +147,12 @@ void graph::addVertic(std::string name)
     {
         throw IllegalVerticName();
     }
-    std::string new_name = removeSpeces(name); 
+    std::string new_name = removeSpeces(name);
+    if (isSaveKey(new_name)) 
+    {
+        throw IllegalVerticName();
+
+    }
     vertices.insert(new_name);
 }
 
@@ -357,10 +353,19 @@ std::ostream& operator<<(std::ostream& out, graph& g1)
     {
         out << vertix << std::endl ; 
     }
-    out << '$' << std::endl ; 
+    out << '$'; 
     for (auto edge : g1.edges)
     {
-        out << edge.first << ' ' << edge.second << std::endl ; 
+        out << std::endl << edge.first << ' ' << edge.second; 
     }
     return out;
+}
+
+bool isSaveKey(const std::string name)
+{
+    if ((name == "print") || (name == "delete")  || (name == "who") || (name == "reset") || (name == "quit"))
+    {
+        return true;
+    }
+    return false;
 }
