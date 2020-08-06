@@ -7,6 +7,7 @@
 #include <vector>
 #include "Exception.h"
 #include <cctype>
+#include "Auxiliaries.h"
 
 class graph
 {
@@ -15,7 +16,6 @@ private:
     std::set<std::pair<std::string, std::string>> edges ; 
 
     void addEdge(std::string name);
-  //  void addEdge(const std::pair<std::string, std::string> name);
     void addVertic(std::string name);
 public:
     graph() = default;

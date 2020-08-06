@@ -10,12 +10,12 @@ GraphException::GraphException(const std::string error) :
 graph_error("Error: "), exception_name(error) { }
 
 /*********************************/
-/*        IllegalArgument        */
+/*        InvalidGraphLiteral        */
 /*********************************/
-IllegalArgument::IllegalArgument() :
-GraphException("IllegalArgument"), message(graph_error += exception_name) { }
+InvalidGraphLiteral::InvalidGraphLiteral() :
+GraphException("Invalid graph literal"), message(graph_error += exception_name) { }
 
-const char* IllegalArgument::what() const noexcept
+const char* InvalidGraphLiteral::what() const noexcept
 {
     return message.c_str();
 }
@@ -25,7 +25,7 @@ const char* IllegalArgument::what() const noexcept
 /*        IllegalVerticName        */
 /*********************************/
 IllegalVerticName::IllegalVerticName() :
-GraphException("IllegalVerticName"), message(graph_error += exception_name) { }
+GraphException("Illegal verticName"), message(graph_error += exception_name) { }
 
 const char* IllegalVerticName::what() const noexcept
 {
@@ -36,7 +36,7 @@ const char* IllegalVerticName::what() const noexcept
 /*        IllegalEdgeName        */
 /*********************************/
 IllegalEdgeName::IllegalEdgeName() :
-GraphException("IllegalEdgeName"), message(graph_error += exception_name) { }
+GraphException("Illegal edgeName"), message(graph_error += exception_name) { }
 
 const char* IllegalEdgeName::what() const noexcept
 {
@@ -47,7 +47,7 @@ const char* IllegalEdgeName::what() const noexcept
 /*        SelfArc        */
 /*********************************/
 SelfArc::SelfArc() :
-GraphException("SelfArc"), message(graph_error += exception_name) { }
+GraphException("Self arc"), message(graph_error += exception_name) { }
 
 const char* SelfArc::what() const noexcept
 {
@@ -58,7 +58,7 @@ const char* SelfArc::what() const noexcept
 /*        ParallelEdges        */
 /*********************************/
 ParallelEdges::ParallelEdges() :
-GraphException("ParallelEdges"), message(graph_error += exception_name) { }
+GraphException("Parallel edges"), message(graph_error += exception_name) { }
 
 const char* ParallelEdges::what() const noexcept
 {
@@ -69,9 +69,33 @@ const char* ParallelEdges::what() const noexcept
 /*        ExtraComma        */
 /*********************************/
 ExtraComma::ExtraComma() :
-GraphException("ExtraComma"), message(graph_error += exception_name) { }
+GraphException("Extra comma"), message(graph_error += exception_name) { }
 
 const char* ExtraComma::what() const noexcept
 {
     return message.c_str();
 }
+
+
+/*********************************/
+/*        GraphDoesNotExist        */
+/*********************************/
+GraphDoesNotExist::GraphDoesNotExist() :
+GraphException("Graph does not exist"), message(graph_error += exception_name) { }
+
+const char* GraphDoesNotExist::what() const noexcept
+{
+    return message.c_str();
+}
+
+/*********************************/
+/*        IllegalGraphName        */
+/*********************************/
+IllegalGraphName::IllegalGraphName() :
+GraphException("Illegal graph name"), message(graph_error += exception_name) { }
+
+const char* IllegalGraphName::what() const noexcept
+{
+    return message.c_str();
+}
+

@@ -1,9 +1,8 @@
 #include "Graph.h"
 
-std::string removeSpeces(const std::string text);
+// std::string removeSpeces(const std::string text);
 bool isLegalVerticName(const std::string& name);
 bool isLegalEdgeName(std::string& name);
-bool isSaveKey(const std::string name);
 
 graph::graph(const std::set<std::string> vertices, const std::set<std::pair<std::string, std::string>> edges) :
 vertices(vertices), edges(edges) { }
@@ -25,7 +24,7 @@ graph::graph(const std::string& info)
             if (std::isblank(letter)) continue;
             if (letter != '{')
             {
-                throw IllegalArgument();
+                throw InvalidGraphLiteral();
             }
             is_first = false;
             continue;
@@ -35,7 +34,7 @@ graph::graph(const std::string& info)
             line_counter++;
             if (line_counter > 1)
             {
-                throw IllegalArgument();
+                throw InvalidGraphLiteral();
             } 
             is_a_vertic = false;
             addVertic(vertic);
@@ -48,7 +47,7 @@ graph::graph(const std::string& info)
                 continue;
             }
             vertic.push_back(letter);
-            if (clos_counter > 1) {throw IllegalArgument();}
+            if (clos_counter > 1) {throw InvalidGraphLiteral();}
 
         }
         else 
@@ -80,7 +79,7 @@ graph::graph(const std::string& info)
                 edge_exists = true;
             }
             edge.push_back(letter);
-            if (clos_counter > 1) {throw IllegalArgument();}
+            if (clos_counter > 1) {throw InvalidGraphLiteral();}
         }
     }
 }
@@ -151,18 +150,18 @@ void graph::addVertic(std::string name)
     vertices.insert(new_name);
 }
 
-std::string removeSpeces(const std::string text)
-{
-    std::string res;
-    for (auto letter : text)
-    {
-        if (letter != ' ')
-        {
-            res += letter;
-        }
-    }
-    return res;
-}
+// std::string removeSpeces(const std::string text)
+// {
+//     std::string res;
+//     for (auto letter : text)
+//     {
+//         if (letter != ' ')
+//         {
+//             res += letter;
+//         }
+//     }
+//     return res;
+// }
 
 void graph::addEdge(std::string name)
 {
@@ -356,11 +355,3 @@ std::ostream& operator<<(std::ostream& out, graph& g1)
     return out;
 }
 
-bool isSaveKey(const std::string name)
-{
-    if ((name == "print") || (name == "delete")  || (name == "who") || (name == "reset") || (name == "quit"))
-    {
-        return true;
-    }
-    return false;
-}

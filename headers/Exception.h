@@ -14,12 +14,12 @@ public:
     virtual ~GraphException() = default;
 };
 
-class IllegalArgument : public GraphException
+class InvalidGraphLiteral : public GraphException
 { 
     std::string message;
 public:
-    IllegalArgument();
-    ~IllegalArgument() = default;
+    InvalidGraphLiteral();
+    ~InvalidGraphLiteral() = default;
     const char* what() const noexcept override;
 };
 
@@ -68,5 +68,24 @@ public:
     ~ExtraComma() = default;
     const char* what() const noexcept override;
 };
+
+class GraphDoesNotExist : public GraphException
+{ 
+    std::string message;
+public:
+    GraphDoesNotExist();
+    ~GraphDoesNotExist() = default;
+    const char* what() const noexcept override;
+};
+
+class IllegalGraphName : public GraphException
+{ 
+    std::string message;
+public:
+    IllegalGraphName();
+    ~IllegalGraphName() = default;
+    const char* what() const noexcept override;
+};
+
 
 #endif

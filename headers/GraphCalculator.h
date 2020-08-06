@@ -7,14 +7,19 @@ class graphCalculator
 {
 private:
     std::map<std::string, graph> graphs;
+
+    // static bool isLegalGrafName( const std::string name);
 public:
     graphCalculator() = default;
     ~graphCalculator() = default;
 
+    graph& get(const std::string& name);
+    graph& get(const std::string& name) const;
+    bool contain(const std::string& name) const;
     void addGraph(const graph& target, const std::string name);
-    void print(std::string name, std::ostream out) const; 
-    void who() const;
-    void remove(graph target);  
+    void print(const std::string name, std::ostream& out = std::cout) const; 
+    void who(std::ostream& out = std::cout) const;
+    void remove(const std::string name);  
     void reset();
 };
 
