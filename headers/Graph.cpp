@@ -128,7 +128,7 @@ bool isLegalVerticName(const std::string& name)
             }
             continue;
         }
-        if (((letter < 'a') && (letter > 'z')) && ((letter < 'A') && (letter > 'Z')))
+        if (!(((letter >= 'a') && (letter <= 'z')) || ((letter >= 'A') && (letter <= 'Z')) || (letter == ' ') || ((letter >='0') && (letter <='9'))))
         {
            return false;
         }
@@ -148,11 +148,6 @@ void graph::addVertic(std::string name)
         throw IllegalVerticName();
     }
     std::string new_name = removeSpeces(name);
-    if (isSaveKey(new_name)) 
-    {
-        throw IllegalVerticName();
-
-    }
     vertices.insert(new_name);
 }
 
