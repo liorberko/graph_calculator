@@ -33,10 +33,11 @@ public:
 
     friend std::ostream& operator<<(std::ostream& out, graph& g1);
 
-    static void save(const graph g1, std::string filename);
-    static graph load(std::string filename);
 };
 
+void save(const graph& g1, std::string filename);
+
+graph load(const std::string& filename);
 
 
 

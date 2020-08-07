@@ -33,6 +33,10 @@ bool isLegalGraphName(const std::string name)
     {
         return false;
     }
+    if (name.size() == 0)
+    {
+        return false;
+    }
     bool first_letter_apper = false;
     bool space_after_letter = false;
     for (auto key : name)
@@ -56,6 +60,30 @@ bool isLegalGraphName(const std::string name)
                 }
                 first_letter_apper = true;
             }
+            if (space_after_letter)
+            {
+                return false;
+            }
+        }
+    }
+    return true;
+}
+
+
+bool isLegalSpaceUse(const std::string& phrase)
+{
+    bool first_letter_apper = false;
+    bool space_after_letter = false;
+    for (auto key : phrase)
+    {
+        if ((key == ' ') && (first_letter_apper))
+        {
+            space_after_letter = true;
+            continue;
+        }
+        if (key != ' ')  
+        {
+            first_letter_apper = true;
             if (space_after_letter)
             {
                 return false;

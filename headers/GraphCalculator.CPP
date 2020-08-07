@@ -103,7 +103,7 @@ graph& graphCalculator::get(const std::string& name)
     return graphs[name];
 }
 
-graph& graphCalculator::get(const std::string& name) const
+graph graphCalculator::get(const std::string& name) const
 {
     if (!(contain(name)))
     {

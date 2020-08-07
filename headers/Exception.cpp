@@ -99,3 +99,27 @@ const char* IllegalGraphName::what() const noexcept
     return message.c_str();
 }
 
+
+/*********************************/
+/*        SintaxError        */
+/*********************************/
+SintaxError::SintaxError() :
+GraphException("Sintax error"), message(graph_error += exception_name) { }
+
+const char* SintaxError::what() const noexcept
+{
+    return message.c_str();
+}
+
+/*********************************/
+/*        WrongSpaceUse        */
+/*********************************/
+WrongSpaceUse::WrongSpaceUse() :
+GraphException("Wrong space use"), message(graph_error += exception_name) { }
+
+const char* WrongSpaceUse::what() const noexcept
+{
+    return message.c_str();
+}
+
+

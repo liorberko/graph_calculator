@@ -14,7 +14,7 @@ public:
     ~graphCalculator() = default;
 
     graph& get(const std::string& name);
-    graph& get(const std::string& name) const;
+    graph get(const std::string& name) const;
     bool contain(const std::string& name) const;
     void addGraph(const graph& target, const std::string name);
     void print(const std::string name, std::ostream& out = std::cout) const; 

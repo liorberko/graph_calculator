@@ -17,7 +17,7 @@ public:
     ~graphCalculatorParser() = default;
 
     graph calculatMultiPhrase(const std::string phrase);
-    graph graphCalculatorParser::calculatPhrase(const std::string phrase1 ,const std::string phrase2, const std::string action);
+    graph calculatPhrase(std::string phrase1, std::string phrase2, const std::string action);
     std::string getFirstWord() const ;
 };
 

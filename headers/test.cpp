@@ -1,9 +1,11 @@
 #include "Graph.h"
 #include "GraphCalculator.h"
-
+#include <algorithm>
 
 int main ()
 {
+
+
 
     std::string g1 = "{a , b,   c| <a,b> , < b,   a> }";
     std::string g2 = "{a1 ,1c , 2v |  <  2v  ,1c>}";

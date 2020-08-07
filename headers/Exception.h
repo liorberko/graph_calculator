@@ -87,5 +87,24 @@ public:
     const char* what() const noexcept override;
 };
 
+class SintaxError : public GraphException
+{ 
+    std::string message;
+public:
+    SintaxError();
+    ~SintaxError() = default;
+    const char* what() const noexcept override;
+};
+
+class WrongSpaceUse : public GraphException
+{ 
+    std::string message;
+public:
+    WrongSpaceUse();
+    ~WrongSpaceUse() = default;
+    const char* what() const noexcept override;
+};
+
+
 
 #endif
