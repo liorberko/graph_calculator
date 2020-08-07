@@ -1,5 +1,6 @@
 #include "graphCalculatorParser.h"
 #include <algorithm>
+#define DONE '%'
 
 
 graph stringToGraph(const std::string phrase,const graphCalculator& G1);
@@ -9,29 +10,30 @@ int countActions(const std::string phrase);
 bool is_blanck_phrase(const std::string phrase);
 std::string removeEnter(const std::string& phrase);
 char get_first_letter(const std::string& phrase);
+bool isLoadFanction(const std::string& phrase, std::string& filename );
+
 
 graphCalculatorParser::graphCalculatorParser(const std::string line,const graphCalculator memory) : line(line), memory(memory) {}
 
 
 graph graphCalculatorParser::calculatPhrase
-(std::string phrase1 , std::string phrase2, const std::string action)
+(graph g1, std::string phrase2, char& action)
 {
-    graph g1 = stringToGraph(phrase1, memory);
     graph g2 = stringToGraph(phrase2, memory);
 
-    if(action.c_str() == "+")
+    if(action == '+')
     {
         return (g1 + g2);
     }
-    else if(action.c_str() == "*")
+    else if(action == '*')
     {
         return (g1 * g2);
     }
-    else if(action.c_str() == "^")
+    else if(action == '^')
     {
         return (g1 ^ g2);
     }
-    else if(action.c_str() == "-")
+    else if(action == '-')
     {
         return (g1 - g2);
     }
@@ -41,118 +43,175 @@ graph graphCalculatorParser::calculatPhrase
     }
 }
 
-graph graphCalculatorParser::calculatMultiPhrase(const std::string phrase)
+std::string graphCalculatorParser::fechNexPhrase(std::string input, char& action)
 {
-    if(is_blanck_phrase(phrase)) 
+    std::string phrase, leftover;
+    bool  record_action = false, record_leftover = false;
+    for (auto letter : input)
     {
-        throw SintaxError();
-    }
-    std::string new_phrase = removeEnter(phrase);
-    if ((std::count(new_phrase.begin(), new_phrase.end(), '(') == 0) && (countActions(new_phrase) == 0))
-    {
-        return stringToGraph(new_phrase, memory);
-    }
-    std::string phrase1, phrase2;
-    char action = '404';
-    bool record_to_phrase2 = false, record_action = false;
-    char first_letter = get_first_letter(new_phrase);
-    if (first_letter == '(')
-    {
-        int bracket_count = 0;
-        for (auto letter : new_phrase)
+        if (record_leftover)
         {
-            if (isblank(letter) && (!isspace(letter)))
-            {
-                continue;
-            }
-            if(record_action)
-            {
-                if (letter == ' ')
-                {
-                    continue;
-                }
-                if (!((letter == '+') || (letter == '-') || (letter == '*') || (letter == '^')))
-                {
-                    throw SintaxError();
-                }
-                action = letter;
-                record_to_phrase2 = true;
-                record_action = false;
-                continue;
-            }
-            if (record_to_phrase2)
-            {
-                phrase2 += letter;
-                continue;
-            }
-            if (letter == '(')
-            {
-                if(bracket_count == 0)
-                {
-                    bracket_count++;
-                    continue;
-                }
-                bracket_count++;
-            }
-            if (letter == ')')
-            {
-                bracket_count--;
-                if (bracket_count == 0)
-                {
-                    record_action = true;
-                    continue;
-                }
-            }
-            phrase1 += letter;
+            leftover += letter;
+            continue;
         }
-    }
-    else
-    {
-        for (auto letter : new_phrase)
+        if ((letter == '+') || (letter == '-') || (letter == '*') || (letter == '^'))
         {
-            if (isblank(letter) && (!isspace(letter)))
-            {
-                continue;
-            }
-            if (record_to_phrase2)
-            {
-                phrase2 += letter;
-                continue;
-            }
-            if ((letter == '+') || (letter == '-') || (letter == '*') || (letter == '^'))
-            {
-                action = letter;
-                record_to_phrase2 = true;
-                continue;
-            }
-            phrase1 += letter;
+            record_leftover = true;
+            action = letter;
+            continue;
         }
+        phrase += letter;
     }
-    if (action == '+')
+    if (leftover.size() == 0)
     {
-        return ((calculatMultiPhrase(phrase1)) + (calculatMultiPhrase(phrase2)));
+        action = DONE;
     }
-    if (action == '-')
-    {
-        return ((calculatMultiPhrase(phrase1)) - (calculatMultiPhrase(phrase2)));
-    }
-    if (action == '*')
-    {
-        return ((calculatMultiPhrase(phrase1)) - (calculatMultiPhrase(phrase2)));
-    }
-    if (action == '^')
-    {
-        return ((calculatMultiPhrase(phrase1)) - (calculatMultiPhrase(phrase2)));
-    }
-    if (action == '404')
-    {
-        return (calculatMultiPhrase(phrase1));
-    }
-    else 
-    {
-        throw SintaxError();
-    } 
+    input = leftover;
+    return phrase;
 }
+
+graph graphCalculatorParser::calculatMultiPhrase(std::string phrase)
+{
+    char action;
+    phrase = removeEnter(phrase);
+    if (phrase.size() == 0)
+    {
+        throw SintaxError();
+    }
+    graph res = stringToGraph(fechNexPhrase(phrase, action), memory);
+    while (action != DONE)
+    {
+        std::string phrase2 = fechNexPhrase(phrase, action);
+        res = calculatPhrase(res,phrase2,action);
+    }
+    return res;
+}
+
+// graph graphCalculatorParser::calculatMultiPhrase(graph g1, std::string phrase, char lest_action)
+// {
+//     if(is_blanck_phrase(phrase)) 
+//     {
+//         throw SintaxError();
+//     }
+//     std::string new_phrase = removeEnter(phrase);
+//     if ((std::count(new_phrase.begin(), new_phrase.end(), '(') == 0) && (countActions(new_phrase) == 1))
+//     {
+//         return stringToGraph(new_phrase, memory);
+//     }
+//     std::string phrase1, phrase2;
+//     char action = '@';
+//     bool record_to_phrase2 = false, record_action = false;
+//     char first_letter = get_first_letter(new_phrase);
+//     if (first_letter == '(')
+//     {
+//         int bracket_count = 0;
+//         for (auto letter : new_phrase)
+//         {
+//             if (isblank(letter) && (!isspace(letter)))
+//             {
+//                 continue;
+//             }
+//             if(record_action)
+//             {
+//                 if (letter == ' ')
+//                 {
+//                     continue;
+//                 }
+//                 if (!((letter == '+') || (letter == '-') || (letter == '*') || (letter == '^')))
+//                 {
+//                     throw SintaxError();
+//                 }
+//                 action = letter;
+//                 record_to_phrase2 = true;
+//                 record_action = false;
+//                 continue;
+//             }
+//             if (record_to_phrase2)
+//             {
+//                 phrase2 += letter;
+//                 continue;
+//             }
+//             if (letter == '(')
+//             {
+//                 if(bracket_count == 0)
+//                 {
+//                     bracket_count++;
+//                     continue;
+//                 }
+//                 bracket_count++;
+//             }
+//             if (letter == ')')
+//             {
+//                 bracket_count--;
+//                 if (bracket_count == 0)
+//                 {
+//                     record_action = true;
+//                     continue;
+//                 }
+//             }
+//             phrase1 += letter;
+//         }
+//     }
+//     else
+//     {
+//         for (auto letter : new_phrase)
+//         {
+//             if (isblank(letter) && (!isspace(letter)))
+//             {
+//                 continue;
+//             }
+//             if (record_to_phrase2)
+//             {
+//                 phrase2 += letter;
+//                 continue;
+//             }
+//             if ((letter == '+') || (letter == '-') || (letter == '*') || (letter == '^'))
+//             {
+//                 action = letter;
+//                 record_to_phrase2 = true;
+//                 continue;
+//             }
+//             phrase1 += letter;
+//         }
+//     }
+//     if (lest_action == '+')
+//     {
+//         return (calculatMultiPhrase(g1 +(calculatMultiPhrase(graph(),phrase1,'+')), phrase2, action));
+//     }
+
+//       if (lest_action == '*')
+//     {
+//         return (calculatMultiPhrase(g1 *(calculatMultiPhrase(graph(),phrase1,'+')), phrase2, action));
+//     }
+//       if (lest_action == '-')
+//     {
+//         return (calculatMultiPhrase(g1 -(calculatMultiPhrase(graph(),phrase1,'+')), phrase2, action));
+//     }
+//       if (lest_action == '^')
+//     {
+//         return (calculatMultiPhrase(g1 ^(calculatMultiPhrase(graph(),phrase1,'+')), phrase2, action));
+//     }
+//     // if (lest_action == '-')
+//     // {
+//     //     return ((calculatMultiPhrase(phrase1)) - (calculatMultiPhrase(phrase2)));
+//     // }
+//     // if (lest_action == '*')
+//     // {
+//     //     return ((calculatMultiPhrase(phrase1)) * (calculatMultiPhrase(phrase2)));
+//     // }
+//     // if (lest_action == '^')
+//     // {
+//     //     return ((calculatMultiPhrase(phrase1)) ^ (calculatMultiPhrase(phrase2)));
+//     // }
+//     // if (lest_action == '@')
+//     // {
+//     //     return (calculatMultiPhrase((g1 +(calculatMultiPhrase(graph()))),phrase1,'+'));
+//     // }
+//     // else 
+//     {
+//         throw SintaxError();
+//     } 
+// }
 
 
 bool is_blanck_phrase(const std::string phrase) 
@@ -193,6 +252,7 @@ char get_first_letter(const std::string& phrase)
             return letter;
         }
     }
+    return ' ';
 }
 
 
@@ -225,7 +285,7 @@ graph stringToGraph(std::string phrase, const graphCalculator& G1)
         std::string filename;
         if(isLoadFanction(phrase, filename))
         {
-            return load(filename);
+            return graph::load(filename);
         }
         if(!isLegalGraphName(phrase))
         {
@@ -281,8 +341,8 @@ bool isLoadFanction(const std::string& phrase, std::string& filename )
         throw WrongSpaceUse();
     }
     res = removeSpeces(res);
-    str::string temp = removeSpeces(commaned);
-    if (temp.c_str == "load")
+    std::string temp = removeSpeces(commaned);
+    if (temp == "load")
     {
         filename = res;
         return true;

@@ -2,10 +2,7 @@
 #define GRAPH_CALCULATOR_PARSER
 #include "GraphCalculator.h"
 
-// /enum class action : char
-// {
-//     plus = '+', minus = '-', 
-// };
+
 
 class graphCalculatorParser
 {
@@ -16,27 +13,18 @@ public:
     graphCalculatorParser(std::string line, graphCalculator memory);
     ~graphCalculatorParser() = default;
 
-    graph calculatMultiPhrase(const std::string phrase);
-    graph calculatPhrase(std::string phrase1, std::string phrase2, const std::string action);
+    // graph calculatMultiPhrase(const std::string phrase);
+    std::string fechNexPhrase(std::string phrase, char& action);
+    graph calculatMultiPhrase(std::string phrase);
+    graph calculatPhrase(graph g1, std::string phrase2, char& action);
     std::string getFirstWord() const ;
+    static void save(const graph& g1, std::string filename);
+
+    static graph load(const std::string& filename);
 };
 
 
 
 
-
-
-
-
-
-
-// bool isSaveKey(const std::string name)
-// {
-//     if ((name == "print") || (name == "delete")  || (name == "who") || (name == "reset") || (name == "quit"))
-//     {
-//         return true;
-//     }
-//     return false;
-// }
 
 #endif

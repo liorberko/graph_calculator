@@ -24,6 +24,12 @@ public:
     graph(const graph& target);
     ~graph() = default;
 
+    static void save(const graph& g1, std::string& filename);
+    static graph load(const std::string filename)
+    {
+        return graph();
+    }
+
     graph& operator=(const graph& target);
     graph operator+(const graph& target) const;
     graph operator^(const graph& target) const;
@@ -35,9 +41,6 @@ public:
 
 };
 
-void save(const graph& g1, std::string filename);
-
-graph load(const std::string& filename);
 
 
 
