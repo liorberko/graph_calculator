@@ -1,5 +1,8 @@
-#include "GraphFactory.h"
+%moule alignas
+%{
+    #include "graph.h"
 
+%}
 graph* create();
 
 void destroy(graph* target);

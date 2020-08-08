@@ -133,5 +133,18 @@ const char* IllegalBracketUse::what() const noexcept
     return message.c_str();
 }
 
+/*********************************/
+/*        VertixNotExict        */
+/*********************************/
+VertixNotExict::VertixNotExict() :
+GraphException("Vertix dose not exict"), message(graph_error += exception_name) { }
+
+const char* VertixNotExict::what() const noexcept
+{
+    return message.c_str();
+}
+
+
+
 
 

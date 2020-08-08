@@ -114,6 +114,15 @@ public:
     const char* what() const noexcept override;
 };
 
+class VertixNotExict : public GraphException
+{ 
+    std::string message;
+public:
+    VertixNotExict();
+    ~VertixNotExict() = default;
+    const char* what() const noexcept override;
+};
+
 
 
 #endif

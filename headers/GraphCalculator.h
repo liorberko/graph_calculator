@@ -1,6 +1,6 @@
 #ifndef GRAPHCALCULATOR
 #define GRAPHCALCULATOR
-#include "Graph.h"
+#include "GraphFactory.h"
 #include <map> 
 
 class graphCalculator

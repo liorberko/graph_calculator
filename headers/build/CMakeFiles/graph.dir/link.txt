@@ -1,0 +1,2 @@
+C:\TDM-GCC-64\bin\ar.exe qc libgraph.a  CMakeFiles/graph.dir/graph.cpp.obj CMakeFiles/graph.dir/Auxiliaries.cpp.obj CMakeFiles/graph.dir/Exception.cpp.obj CMakeFiles/graph.dir/GraphFactory.cpp.obj
+C:\TDM-GCC-64\bin\ranlib.exe libgraph.a
