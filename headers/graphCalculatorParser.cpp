@@ -14,7 +14,7 @@ bool isLoadFanction(const std::string& phrase, std::string& filename );
 char findeAndRemoveLasstAction(std::string& phrase);
 bool conteine_only_exclamation_mark_phrase(const std::string phrase);
 
-graphCalculator memory;
+graphCalculator graphCalculatorParser::memory;
 
 
 graphCalculatorParser::graphCalculatorParser(std::string line, std::ostream* out) : line(line), out(out) { }
