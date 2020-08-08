@@ -37,9 +37,9 @@
 			[
 				{
 					"directoryIndex" : 0,
-					"id" : "graph::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-graph-Debug-b7fd4e852dd6bb99aef6.json",
-					"name" : "graph",
+					"id" : "alpaca::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-alpaca-Debug-493c87adb19cc973e0f7.json",
+					"name" : "alpaca",
 					"projectIndex" : 0
 				}
 			]
