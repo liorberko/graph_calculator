@@ -25,6 +25,11 @@ void destroy(graph* target)
 
 graph* addVertex(graph* target, const char* name)
 {
+    if (target == nullptr)
+    {
+        std::cout << "Error: null pointer";
+        return target;
+    }
     try
     {
         (*target).addVertic(name);
@@ -38,6 +43,11 @@ graph* addVertex(graph* target, const char* name)
 
 graph* addEdge(graph* target, const char* name1, const char* name2)
 {
+    if (target == nullptr)
+    {
+        std::cout << "Error: null pointer";
+        return target;
+    }
     try
     {
         if ((!(*target).containVertix(name1)) || (!(*target).containVertix(name2)))
@@ -60,6 +70,11 @@ void disp(const graph* target)
 
 graph* graphUnion(const graph* graph_in1, const graph* graph_in2, graph* graph_out)
 {
+    if ((graph_in1 == nullptr) || (graph_in2 == nullptr) || (graph_out == nullptr))
+    {
+        std::cout << "Error: null pointer";
+        return target;
+    }
     try
     {
         (*graph_out) = ((*graph_in1)+(*graph_in2));
@@ -73,6 +88,11 @@ graph* graphUnion(const graph* graph_in1, const graph* graph_in2, graph* graph_o
 
 graph* graphIntersection(const graph* graph_in1, const graph* graph_in2, graph* graph_out)
 {
+    if ((graph_in1 == nullptr) || (graph_in2 == nullptr) || (graph_out == nullptr))
+    {
+        std::cout << "Error: null pointer";
+        return target;
+    }
     try
     {
         (*graph_out) = ((*graph_in1)^(*graph_in2));
@@ -87,6 +107,11 @@ graph* graphIntersection(const graph* graph_in1, const graph* graph_in2, graph* 
 
 graph* graphDifference(const graph* graph_in1, const graph* graph_in2, graph* graph_out)
 {
+    if ((graph_in1 == nullptr) || (graph_in2 == nullptr) || (graph_out == nullptr))
+    {
+        std::cout << "Error: null pointer";
+        return target;
+    }
     try
     {
         (*graph_out) = ((*graph_in1)-(*graph_in2));
@@ -100,6 +125,11 @@ graph* graphDifference(const graph* graph_in1, const graph* graph_in2, graph* gr
 
 graph* graphProduct(const graph* graph_in1, const graph* graph_in2, graph* graph_out)
 {
+    if ((graph_in1 == nullptr) || (graph_in2 == nullptr) || (graph_out == nullptr))
+    {
+        std::cout << "Error: null pointer";
+        return target;
+    }
     try
     {
         (*graph_out) = ((*graph_in1)*(*graph_in2));
@@ -112,6 +142,11 @@ graph* graphProduct(const graph* graph_in1, const graph* graph_in2, graph* graph
 }
 graph* graphComplement(const graph* graph_in, graph* graph_out)
 {
+    if ((graph_in == nullptr) || (graph_out == nullptr))
+    {
+        std::cout << "Error: null pointer";
+        return target;
+    }
     try
     {
         (*graph_out) = (!(*graph_in));
