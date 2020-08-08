@@ -1,6 +1,6 @@
 #include "Graph.h"
 
-// std::string removeSpeces(const std::string text);
+bool emptyGrapg(const std::string& text);
 bool isLegalVerticName(const std::string& name);
 bool isLegalEdgeName(std::string& name);
 
@@ -12,6 +12,10 @@ vertices(target.vertices), edges(target.edges) {}
 
 graph::graph(const std::string& info)
 {
+    if (emptyGrapg(info))
+    {
+        return;
+    }
     bool is_a_vertic = true, is_first = true, edge_exists = false, secondery_comma = false;
     int line_counter =0, clos_counter =0, angel_bracket_count = 0;
     std::string vertic;
@@ -150,18 +154,6 @@ void graph::addVertic(std::string name)
     vertices.insert(new_name);
 }
 
-// std::string removeSpeces(const std::string text)
-// {
-//     std::string res;
-//     for (auto letter : text)
-//     {
-//         if (letter != ' ')
-//         {
-//             res += letter;
-//         }
-//     }
-//     return res;
-// }
 
 void graph::addEdge(std::string name)
 {
@@ -352,6 +344,18 @@ std::ostream& operator<<(std::ostream& out, graph& g1)
     {
         out << std::endl << edge.first << ' ' << edge.second; 
     }
+    out<<std::endl;
     return out;
 }
 
+bool emptyGrapg(const std::string& text)
+{
+    for (auto letter : text)
+    {
+        if ((letter != ' ') && (letter != '{') && (letter != '}') && (letter != '|') )
+        {
+            return false;
+        }
+    }
+    return true;
+}

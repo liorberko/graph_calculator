@@ -92,3 +92,16 @@ bool isLegalSpaceUse(const std::string& phrase)
     }
     return true;
 }
+
+
+bool is_blanck_phrase(const std::string phrase) 
+{
+    for (auto letter : phrase)
+    {
+        if (!isblank(letter))
+        {
+            return false;
+        }
+    }
+    return true;
+}

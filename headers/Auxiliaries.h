@@ -17,4 +17,7 @@ bool isLegalGraphName( const std::string name);
 
 bool isLegalSpaceUse(const std::string& phrase);
 
+bool is_blanck_phrase(const std::string phrase);
+
+
 #endif

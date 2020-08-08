@@ -7,7 +7,6 @@ graph stringToGraph(const std::string phrase,const graphCalculator& G1);
 bool firstLetterIsExclamationMark(const std::string& phrase);
 std::string removeExclamationMark(const std::string& phrase);
 int countActions(const std::string phrase);
-bool is_blanck_phrase(const std::string phrase);
 std::string removeEnter(const std::string& phrase);
 char get_first_letter(const std::string& phrase);
 bool isLoadFanction(const std::string& phrase, std::string& filename );
@@ -33,7 +32,7 @@ bool graphCalculatorParser::applyLine()
                 phrase += letter;
                 continue;
             }
-            if (letter = '=')
+            if (letter == '=')
             {
                 equals_apear = true;
                 continue;
@@ -643,17 +642,6 @@ graph graphCalculatorParser::calculatMultiPhrase(std::string phrase) const
 // }
 
 
-bool is_blanck_phrase(const std::string phrase) 
-{
-    for (auto letter : phrase)
-    {
-        if (!isblank(letter))
-        {
-            return false;
-        }
-    }
-    return true;
-}
 
 bool conteine_only_exclamation_mark_phrase(const std::string phrase)
 {
@@ -713,14 +701,14 @@ int countActions(const std::string phrase)
 
 graph stringToGraph(std::string phrase, const graphCalculator& G1)
 {
+    bool exclamation_mark_on = false;
+    if (firstLetterIsExclamationMark(phrase))
+    {
+        exclamation_mark_on = true;
+    }
+    phrase = removeExclamationMark(phrase);
     if (phrase.find('{') == std::string::npos) 
     {
-        bool exclamation_mark_on = false;
-        if (firstLetterIsExclamationMark(phrase))
-        {
-            exclamation_mark_on = true;
-        }
-        phrase = removeExclamationMark(phrase);
         std::string filename;
         if(isLoadFanction(phrase, filename))
         {
@@ -740,6 +728,10 @@ graph stringToGraph(std::string phrase, const graphCalculator& G1)
     else 
     {
         graph new_graph(phrase);
+        if (exclamation_mark_on)
+        {
+            return (!(new_graph));
+        }
         return new_graph;
     }
 }

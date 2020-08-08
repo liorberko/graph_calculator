@@ -73,6 +73,7 @@ void graphCalculator::who(std::ostream& out) const
         out << element.first ; 
         is_first = false;
     }
+    out << std::endl;
 }
 
 void graphCalculator::remove(const std::string name)
