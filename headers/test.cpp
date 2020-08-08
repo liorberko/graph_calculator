@@ -26,13 +26,13 @@ int main ()
     // berko.reset();
     // berko.print("G1");
 
-    graph G3 = G2*G1 +G2;
+    graph G3 = G1 + (!G2*(!(!G1))) +!G2;
     std::cout << G3 << std::endl << std::endl;
     berko.addGraph(G3, "G3");
 
-    graphCalculatorParser memory1 ("a = G2*G1 +G2",berko);
-    graph tal = memory1.calculatMultiPhrase("G2*G1 +G2");
-    std::cout << tal;
+    // graphCalculatorParser memory1 ("a = G2*!G1 +G2");
+    // graph tom = memory1.calculatComplexPhrase("(G1 +(!G2*!(!G1))) +!G2");
+    // std::cout << tom;
 
     return 0 ; 
 }

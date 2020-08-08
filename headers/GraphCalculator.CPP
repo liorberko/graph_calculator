@@ -3,7 +3,7 @@
 // std::string removeSpeces(const std::string text);
 // bool isSaveKey(const std::string name);
 
-void graphCalculator::addGraph(const graph& target, const std::string name)
+void graphCalculator::addGraph(const graph target, const std::string name)
 {
     if (!isLegalGraphName(name))
     {

@@ -122,4 +122,16 @@ const char* WrongSpaceUse::what() const noexcept
     return message.c_str();
 }
 
+/*********************************/
+/*        IllegalBracketUse        */
+/*********************************/
+IllegalBracketUse::IllegalBracketUse() :
+GraphException("Illegal bracket use"), message(graph_error += exception_name) { }
+
+const char* IllegalBracketUse::what() const noexcept
+{
+    return message.c_str();
+}
+
+
 

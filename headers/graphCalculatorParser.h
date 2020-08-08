@@ -8,15 +8,20 @@ class graphCalculatorParser
 {
 private:
     std::string line ;
-    graphCalculator memory ;
+    std::ostream* out;
+
+    static graphCalculator memory;
 public:
-    graphCalculatorParser(std::string line, graphCalculator memory);
+    graphCalculatorParser(std::string line, std::ostream* out);
     ~graphCalculatorParser() = default;
 
-    // graph calculatMultiPhrase(const std::string phrase);
-    std::string fechNexPhrase(std::string phrase, char& action);
-    graph calculatMultiPhrase(std::string phrase);
-    graph calculatPhrase(graph g1, std::string phrase2, char& action);
+    bool applyLine();
+    graph astimetThreePhrases
+    (const std::string& phrase1, const std::string& phrase2,const std::string& phrase3, char action1, char action2) const;
+    graph calculatComplexPhrase(std::string phrase) const;
+    std::string fechNexPhrase(std::string& phrase, char& action) const;
+    graph calculatMultiPhrase(std::string phrase) const;
+    graph calculatPhrase(graph g1, std::string phrase2, char& action) const;
     std::string getFirstWord() const ;
     static void save(const graph& g1, std::string filename);
 

@@ -105,6 +105,15 @@ public:
     const char* what() const noexcept override;
 };
 
+class IllegalBracketUse : public GraphException
+{ 
+    std::string message;
+public:
+    IllegalBracketUse();
+    ~IllegalBracketUse() = default;
+    const char* what() const noexcept override;
+};
+
 
 
 #endif
