@@ -3,8 +3,8 @@
 bool emptyGrapg(const std::string& text);
 bool isLegalVerticName(const std::string& name);
 bool isLegalEdgeName(std::string& name);
-std::pair<std::string,std::string> getEdgeFromFile(const std::string& filename);
-std::string getVertexFromFile(const std::string filename);
+std::pair<std::string,std::string> getEdgeFromFile(std::ifstream& infile);
+std::string getVertexFromFile(std::ifstream& infile);
 std::string fixFilename(const std::string& filename);
 
 graph::graph(const std::set<std::string> vertices, const std::set<std::pair<std::string, std::string>> edges) :
@@ -414,7 +414,7 @@ void graph::save(const graph& g1,std::string filename)
         throw CanNotOpenFile();
     }
     unsigned num_of_veteces = g1.vertices.size();
-    unsigned num_of_edges = g1.vertices.size();
+    unsigned num_of_edges = g1.edges.size();
     outfile.write(reinterpret_cast<char*>(&num_of_veteces), sizeof(int));
     outfile.write(reinterpret_cast<char*>(&num_of_edges), sizeof(int));
     for (auto vertex : g1.vertices)
@@ -450,10 +450,9 @@ graph graph::load(std::string filename)
     graph res;
     for (int i = 0; i<num_of_veteces; i++)
     {
-        std::string new_vertex = getVertexFromFile(filename);
+        std::string new_vertex = getVertexFromFile(infile);
         if (!isLegalVerticName(new_vertex))
         {
-            std::cout << new_vertex << std:: endl;
             throw IllegalVerticNameInFile();
         }
         if (res.vertices.count(new_vertex))
@@ -464,7 +463,7 @@ graph graph::load(std::string filename)
     }
     for (int i=0; i < num_of_edges; i++)
     {
-        std::pair<std::string,std::string> new_edge = getEdgeFromFile(filename);
+        std::pair<std::string,std::string> new_edge = getEdgeFromFile(infile);
         if (res.vertices.count(new_edge.first) == 0)
         {
             throw IllegalEdgeName();
@@ -482,13 +481,8 @@ graph graph::load(std::string filename)
     return res;
 }
 
-std::string getVertexFromFile(const std::string filename)
+std::string getVertexFromFile(std::ifstream& infile)
 {
-    std::ifstream infile(filename, std::ios_base::binary);
-    if(!infile)
-    {
-        throw CanNotOpenFile();
-    }
     unsigned size_of_vertex;
     infile.read(reinterpret_cast<char*>(&size_of_vertex), sizeof(size_of_vertex));
     if (infile.fail())
@@ -509,10 +503,10 @@ std::string getVertexFromFile(const std::string filename)
 
 }
 
-std::pair<std::string,std::string> getEdgeFromFile(const std::string& filename)
+std::pair<std::string,std::string> getEdgeFromFile(std::ifstream& infile)
 {
-    std::string vertex1 = getVertexFromFile(filename);
-    std::string vertex2 = getVertexFromFile(filename);
+    std::string vertex1 = getVertexFromFile(infile);
+    std::string vertex2 = getVertexFromFile(infile);
     if (vertex1 == vertex2)
     {
         throw IllegalEdgeName();

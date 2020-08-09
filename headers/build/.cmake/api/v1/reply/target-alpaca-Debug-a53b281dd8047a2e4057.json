@@ -90,13 +90,7 @@
 				1,
 				2,
 				3,
-				4
-			]
-		},
-		{
-			"name" : "",
-			"sourceIndexes" : 
-			[
+				4,
 				5
 			]
 		}
@@ -136,8 +130,8 @@
 		{
 			"backtrace" : 1,
 			"compileGroupIndex" : 0,
-			"path" : "GraphCalculator.CPP",
-			"sourceGroupIndex" : 1
+			"path" : "GraphCalculator.cpp",
+			"sourceGroupIndex" : 0
 		}
 	],
 	"type" : "EXECUTABLE"
