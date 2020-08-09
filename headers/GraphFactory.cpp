@@ -3,6 +3,9 @@
 bool emptyGrapg(const std::string& text);
 bool isLegalVerticName(const std::string& name);
 bool isLegalEdgeName(std::string& name);
+std::pair<std::string,std::string> getEdgeFromFile(const std::string& filename);
+std::string getVertexFromFile(const std::string filename);
+std::string fixFilename(const std::string& filename);
 
 graph::graph(const std::set<std::string> vertices, const std::set<std::pair<std::string, std::string>> edges) :
 vertices(vertices), edges(edges) { }
@@ -369,34 +372,191 @@ bool graph::containVertix(std::string name) const
     return true;
 }
 
-    void graph::addEdgeWithLegalName(const std::string vertix1, const std::string vertix2)
-    {
-        std::pair<std::string, std::string> edge = { vertix1, vertix2 };
-        edges.insert(edge); 
-    }
+void graph::addEdgeWithLegalName(const std::string vertix1, const std::string vertix2)
+{
+    std::pair<std::string, std::string> edge = { vertix1, vertix2 };
+    edges.insert(edge); 
+}
 
 
-    graph graph::graphUnion(const graph& graph_in) const
+graph graph::graphUnion(const graph& graph_in) const
+{
+    return (*this + graph_in);
+}
+
+graph graph::graphIntersection(const graph& graph_in) const
+{
+    return (*this ^ graph_in);
+}
+
+graph graph::graphDifference(const graph& graph_in) const
+{
+    return (*this - graph_in);
+}
+
+graph graph::graphProduct(const graph& graph_in) const
+{
+    return (*this * graph_in);
+}
+
+graph graph::graphComplement() const
+{
+    return (!(*this));
+}
+
+
+void graph::save(const graph& g1,std::string filename)
+{
+    filename = fixFilename(filename);
+    std::ofstream outfile(filename, std::ios_base::binary);
+    if (!outfile)
     {
-        return (*this + graph_in);
+        throw CanNotOpenFile();
+    }
+    unsigned num_of_veteces = g1.vertices.size();
+    unsigned num_of_edges = g1.vertices.size();
+    outfile.write(reinterpret_cast<char*>(&num_of_veteces), sizeof(int));
+    outfile.write(reinterpret_cast<char*>(&num_of_edges), sizeof(int));
+    for (auto vertex : g1.vertices)
+    {
+        unsigned vertex_strlen = vertex.size();
+        outfile.write(reinterpret_cast<char*>(&vertex_strlen), sizeof(vertex_strlen));
+        outfile.write(vertex.c_str(), vertex_strlen);
+    }
+    for (auto edge : g1.edges)
+    {
+        unsigned left_size = edge.first.size();
+        outfile.write(reinterpret_cast<char*>(&left_size), sizeof(left_size));
+        outfile.write(edge.first.c_str(), left_size);
+        unsigned right_size = edge.second.size();
+        outfile.write(reinterpret_cast<char*>(&right_size), sizeof(right_size));
+        outfile.write(edge.second.c_str(), right_size);
     }
 
-    graph graph::graphIntersection(const graph& graph_in) const
-    {
-        return (*this ^ graph_in);
-    }
+}
 
-    graph graph::graphDifference(const graph& graph_in) const
+graph graph::load(std::string filename)
+{
+    filename = fixFilename(filename);
+    std::ifstream infile(filename, std::ios_base::binary);
+    if(!infile)
     {
-        return (*this - graph_in);
+        throw CanNotOpenFile();
     }
+    unsigned num_of_veteces;
+    infile.read(reinterpret_cast<char*>(&num_of_veteces), sizeof(num_of_veteces));
+    unsigned num_of_edges;
+    infile.read(reinterpret_cast<char*>(&num_of_edges), sizeof(num_of_edges));
+    graph res;
+    for (int i = 0; i<num_of_veteces; i++)
+    {
+        std::string new_vertex = getVertexFromFile(filename);
+        if (!isLegalVerticName(new_vertex))
+        {
+            std::cout << new_vertex << std:: endl;
+            throw IllegalVerticNameInFile();
+        }
+        if (res.vertices.count(new_vertex))
+        {
+            throw TwoVertexSherAName();
+        }
+        res.vertices.insert(new_vertex);
+    }
+    for (int i=0; i < num_of_edges; i++)
+    {
+        std::pair<std::string,std::string> new_edge = getEdgeFromFile(filename);
+        if (res.vertices.count(new_edge.first) == 0)
+        {
+            throw IllegalEdgeName();
+        }
+        if (res.vertices.count(new_edge.second) == 0)
+        {
+            throw IllegalEdgeName();
+        }
+        if (res.edges.count(new_edge))
+        {
+            throw TwoEdgesWithSameName();
+        }
+        res.edges.insert(new_edge);
+    }
+    return res;
+}
 
-    graph graph::graphProduct(const graph& graph_in) const
+std::string getVertexFromFile(const std::string filename)
+{
+    std::ifstream infile(filename, std::ios_base::binary);
+    if(!infile)
     {
-        return (*this * graph_in);
+        throw CanNotOpenFile();
     }
+    unsigned size_of_vertex;
+    infile.read(reinterpret_cast<char*>(&size_of_vertex), sizeof(size_of_vertex));
+    if (infile.fail())
+    {
+        throw CanNotOpenFile();
+    }
+    char* vertex = new char [size_of_vertex +1];
+    infile.read(vertex, size_of_vertex);
+    if (infile.fail())
+    {
+        delete[] (vertex);
+        throw CanNotOpenFile();
+    }
+    vertex[size_of_vertex] = '\0';
+    std::string new_vertex = vertex;
+    delete[] (vertex);
+    return new_vertex;
 
-    graph graph::graphComplement() const
+}
+
+std::pair<std::string,std::string> getEdgeFromFile(const std::string& filename)
+{
+    std::string vertex1 = getVertexFromFile(filename);
+    std::string vertex2 = getVertexFromFile(filename);
+    if (vertex1 == vertex2)
     {
-        return (!(*this));
+        throw IllegalEdgeName();
     }
+    std::pair<std::string,std::string> res = {vertex1,vertex2};
+    return res;
+
+}
+
+std::string fixFilename(const std::string& filename)
+{
+    std::string res,temp;
+    bool first_letter_apear;
+    for (auto letter : filename)
+    {
+        if(letter != ' ')
+        {
+            first_letter_apear = true;
+            temp += letter;
+        }
+        else
+        {
+            if (first_letter_apear)
+            {
+                temp += ' ';
+            }
+        } 
+    }
+    reverse(temp.begin(),temp.end());
+    for (auto letter : temp)
+    {
+        if(letter != ' ')
+        {
+            first_letter_apear = true;
+            res += letter;
+        }
+        else
+        {
+            if (first_letter_apear)
+            {
+                res += ' ';
+            }
+        } 
+    }
+    reverse(res.begin(),res.end());
+    return res;
+}

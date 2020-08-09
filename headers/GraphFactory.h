@@ -8,6 +8,9 @@
 #include "Exception.h"
 #include <cctype>
 #include "Auxiliaries.h"
+#include <fstream>
+#include <algorithm>
+
 
 class graph
 {
@@ -22,11 +25,8 @@ public:
     graph(const graph& target);
     ~graph() = default;
 
-    static void save(const graph& g1, std::string& filename);
-    static graph load(const std::string filename)
-    {
-        return graph();
-    }
+    static void save(const graph& g1, std::string filename);
+    static graph load(std::string filename);
 
     bool containVertix(std::string name) const;
     void addEdgeWithLegalName(const std::string vertix1,const std::string vertix2);

@@ -144,6 +144,52 @@ const char* VertixNotExict::what() const noexcept
     return message.c_str();
 }
 
+/*********************************/
+/*        CanNotOpenFile        */
+/*********************************/
+CanNotOpenFile::CanNotOpenFile() :
+GraphException("Can not open file"), message(graph_error += exception_name) { }
+
+const char* CanNotOpenFile::what() const noexcept
+{
+    return message.c_str();
+}
+
+/*********************************/
+/*       IllegalVerticNameInFile */
+/*********************************/
+IllegalVerticNameInFile::IllegalVerticNameInFile() :
+GraphException("Illegal vertic name in file"), message(graph_error += exception_name) { }
+
+const char* IllegalVerticNameInFile::what() const noexcept
+{
+    return message.c_str();
+}
+
+/*********************************/
+/*       TwoVertexSherAName */
+/*********************************/
+TwoVertexSherAName::TwoVertexSherAName() :
+GraphException("Two vertex sher a name"), message(graph_error += exception_name) { }
+
+const char* TwoVertexSherAName::what() const noexcept
+{
+    return message.c_str();
+}
+
+/*********************************/
+/*       TwoEdgesWithSameName    */
+/*********************************/
+TwoEdgesWithSameName::TwoEdgesWithSameName() :
+GraphException("Two edges with same name"), message(graph_error += exception_name) { }
+
+const char* TwoEdgesWithSameName::what() const noexcept
+{
+    return message.c_str();
+}
+
+
+
 
 
 

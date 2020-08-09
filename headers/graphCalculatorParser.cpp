@@ -167,7 +167,7 @@ bool graphCalculatorParser::applyLine()
                 throw WrongSpaceUse();
             }
             graph_name = removeSpeces(graph_name);
-            save((memory.get(graph_name)), filename);
+            graph::save((memory.get(graph_name)), filename);
             return true;
         }
         else

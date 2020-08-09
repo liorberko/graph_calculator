@@ -123,6 +123,41 @@ public:
     const char* what() const noexcept override;
 };
 
+class CanNotOpenFile : public GraphException
+{ 
+    std::string message;
+public:
+    CanNotOpenFile();
+    ~CanNotOpenFile() = default;
+    const char* what() const noexcept override;
+};
+
+class IllegalVerticNameInFile : public GraphException
+{ 
+    std::string message;
+public:
+    IllegalVerticNameInFile();
+    ~IllegalVerticNameInFile() = default;
+    const char* what() const noexcept override;
+};
+
+class TwoVertexSherAName : public GraphException
+{ 
+    std::string message;
+public:
+    TwoVertexSherAName();
+    ~TwoVertexSherAName() = default;
+    const char* what() const noexcept override;
+};
+
+class TwoEdgesWithSameName : public GraphException
+{ 
+    std::string message;
+public:
+    TwoEdgesWithSameName();
+    ~TwoEdgesWithSameName() = default;
+    const char* what() const noexcept override;
+};
 
 
 #endif

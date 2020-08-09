@@ -1,6 +1,7 @@
 #ifndef GRAPH_CALCULATOR_PARSER
 #define GRAPH_CALCULATOR_PARSER
 #include "GraphCalculator.h"
+#include <fstream>
 
 
 
@@ -23,12 +24,6 @@ public:
     graph calculatMultiPhrase(std::string phrase) const;
     graph calculatPhrase(graph g1, std::string phrase2, char& action) const;
     std::string getFirstWord() const ;
-    static void save(const graph& g1, std::string filename)
-    {
-        
-    }
-
-    static graph load(const std::string& filename);
 };
 
 

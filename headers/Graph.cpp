@@ -54,6 +54,10 @@ graph* addEdge(graph* target, const char* name1, const char* name2)
         {
             throw VertixNotExict();
         }
+        if (name1 == name2)
+        {
+            throw SelfArc();
+        }
         (*target).addEdgeWithLegalName(name1, name2);
     }
     catch(const std::exception& e)
