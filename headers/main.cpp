@@ -3,12 +3,14 @@
 
 int main (int argc, char* argv[])
 {
+    bool is_file_mode = true;
     std::ostream* out;
     std::istream * input;
     switch (argc)
     {
         case 1:
         {
+            is_file_mode = false;
             input = &std::cin;
             out = &std::cout;
             break;
@@ -39,7 +41,10 @@ int main (int argc, char* argv[])
         }    
     }
     std::string line;
-    *out << "Gcalc> "; 
+    if (!is_file_mode)
+    {
+        *out << "Gcalc> ";
+    } 
     while (std::getline(*input, line))
     {
         try
@@ -49,12 +54,18 @@ int main (int argc, char* argv[])
             {
                 break;
             }
-            *out << "Gcalc> ";
+            if (!is_file_mode)
+            {
+                *out << "Gcalc> ";
+            } 
         }
         catch(const std::exception& err)
         {
             *out << err.what() << std::endl;
-            *out << "Gcalc> ";
+            if (!is_file_mode)
+            {
+                *out << "Gcalc> ";
+            } 
         }  
     }
 

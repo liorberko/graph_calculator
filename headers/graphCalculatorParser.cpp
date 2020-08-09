@@ -186,7 +186,7 @@ graph graphCalculatorParser::calculatComplexPhrase(std::string phrase) const
         return calculatMultiPhrase(phrase);
     }
     int bracket_counter = 0;
-    bool bracket_closed = false, first_bracket_met = false, record_action1 = false, record_action2 = false;
+    bool bracket_closed = false, first_bracket_met = false, record_action2 = false;
     std::string phrash1, phrase2, bracket_phrase;
     char action1, action2;
     for (auto letter : phrase)
@@ -465,7 +465,7 @@ graph graphCalculatorParser::calculatPhrase
 std::string graphCalculatorParser::fechNexPhrase(std::string& input, char& action) const
 {
     std::string phrase, leftover;
-    bool  record_action = false, record_leftover = false;
+    bool record_leftover = false;
     for (auto letter : input)
     {
         if (record_leftover)
@@ -837,19 +837,19 @@ graph graphCalculatorParser::astimetThreePhrases
     {
         if (action2 == '+')
         {
-            return (calculatComplexPhrase(phrase1) + calculatComplexPhrase(phrase2) + calculatComplexPhrase(phrase3));
+            return ((calculatComplexPhrase(phrase1) + calculatComplexPhrase(phrase2)) + calculatComplexPhrase(phrase3));
         }
         else if (action2 == '-')
         {
-            return (calculatComplexPhrase(phrase1) + calculatComplexPhrase(phrase2) - calculatComplexPhrase(phrase3));
+            return ((calculatComplexPhrase(phrase1) + calculatComplexPhrase(phrase2)) - calculatComplexPhrase(phrase3));
         }
         else if (action2 == '*')
         {
-            return (calculatComplexPhrase(phrase1) + calculatComplexPhrase(phrase2) * calculatComplexPhrase(phrase3));
+            return ((calculatComplexPhrase(phrase1) + calculatComplexPhrase(phrase2)) * calculatComplexPhrase(phrase3));
         }
         else if (action2 == '^')
         {
-            return (calculatComplexPhrase(phrase1) + calculatComplexPhrase(phrase2) ^ calculatComplexPhrase(phrase3));
+            return ((calculatComplexPhrase(phrase1) + calculatComplexPhrase(phrase2) )^ calculatComplexPhrase(phrase3));
         }
         else
         {
@@ -860,19 +860,19 @@ graph graphCalculatorParser::astimetThreePhrases
     {
         if (action2 == '+')
         {
-            return (calculatComplexPhrase(phrase1) - calculatComplexPhrase(phrase2) + calculatComplexPhrase(phrase3));
+            return ((calculatComplexPhrase(phrase1) - calculatComplexPhrase(phrase2)) + calculatComplexPhrase(phrase3));
         }
         else if (action2 == '-')
         {
-            return (calculatComplexPhrase(phrase1) - calculatComplexPhrase(phrase2) - calculatComplexPhrase(phrase3));
+            return ((calculatComplexPhrase(phrase1) - calculatComplexPhrase(phrase2)) - calculatComplexPhrase(phrase3));
         }
         else if (action2 == '*')
         {
-            return (calculatComplexPhrase(phrase1) - calculatComplexPhrase(phrase2) * calculatComplexPhrase(phrase3));
+            return ((calculatComplexPhrase(phrase1) - calculatComplexPhrase(phrase2)) * calculatComplexPhrase(phrase3));
         }
         else if (action2 == '^')
         {
-            return (calculatComplexPhrase(phrase1) - calculatComplexPhrase(phrase2) ^ calculatComplexPhrase(phrase3));
+            return ((calculatComplexPhrase(phrase1) - calculatComplexPhrase(phrase2)) ^ calculatComplexPhrase(phrase3));
         }
         else
         {
@@ -883,19 +883,19 @@ graph graphCalculatorParser::astimetThreePhrases
     {
         if (action2 == '+')
         {
-            return (calculatComplexPhrase(phrase1) * calculatComplexPhrase(phrase2) + calculatComplexPhrase(phrase3));
+            return ((calculatComplexPhrase(phrase1) * calculatComplexPhrase(phrase2)) + calculatComplexPhrase(phrase3));
         }
         else if (action2 == '-')
         {
-            return (calculatComplexPhrase(phrase1) * calculatComplexPhrase(phrase2) - calculatComplexPhrase(phrase3));
+            return ((calculatComplexPhrase(phrase1) * calculatComplexPhrase(phrase2)) - calculatComplexPhrase(phrase3));
         }
         else if (action2 == '*')
         {
-            return (calculatComplexPhrase(phrase1) * calculatComplexPhrase(phrase2) * calculatComplexPhrase(phrase3));
+            return ((calculatComplexPhrase(phrase1) * calculatComplexPhrase(phrase2)) * calculatComplexPhrase(phrase3));
         }
         else if (action2 == '^')
         {
-            return (calculatComplexPhrase(phrase1) * calculatComplexPhrase(phrase2) ^ calculatComplexPhrase(phrase3));
+            return ((calculatComplexPhrase(phrase1) * calculatComplexPhrase(phrase2)) ^ calculatComplexPhrase(phrase3));
         }
         else
         {
@@ -906,19 +906,19 @@ graph graphCalculatorParser::astimetThreePhrases
     {
         if (action2 == '+')
         {
-            return (calculatComplexPhrase(phrase1) ^ calculatComplexPhrase(phrase2) + calculatComplexPhrase(phrase3));
+            return ((calculatComplexPhrase(phrase1) ^ calculatComplexPhrase(phrase2)) + calculatComplexPhrase(phrase3));
         }
         else if (action2 == '-')
         {
-            return (calculatComplexPhrase(phrase1) ^ calculatComplexPhrase(phrase2) - calculatComplexPhrase(phrase3));
+            return ((calculatComplexPhrase(phrase1) ^ calculatComplexPhrase(phrase2)) - calculatComplexPhrase(phrase3));
         }
         else if (action2 == '*')
         {
-            return (calculatComplexPhrase(phrase1) ^ calculatComplexPhrase(phrase2) * calculatComplexPhrase(phrase3));
+            return ((calculatComplexPhrase(phrase1) ^ calculatComplexPhrase(phrase2)) * calculatComplexPhrase(phrase3));
         }
         else if (action2 == '^')
         {
-            return (calculatComplexPhrase(phrase1) ^ calculatComplexPhrase(phrase2) ^ calculatComplexPhrase(phrase3));
+            return ((calculatComplexPhrase(phrase1) ^ calculatComplexPhrase(phrase2)) ^ calculatComplexPhrase(phrase3));
         }
         else
         {

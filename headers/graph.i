@@ -1,7 +1,6 @@
-%moule alignas
+%module graph
 %{
     #include "graph.h"
-
 %}
 graph* create();
 
