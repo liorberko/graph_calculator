@@ -374,3 +374,29 @@ bool graph::containVertix(std::string name) const
         std::pair<std::string, std::string> edge = { vertix1, vertix2 };
         edges.insert(edge); 
     }
+
+
+    graph graph::graphUnion(const graph& graph_in) const
+    {
+        return (*this + graph_in);
+    }
+
+    graph graph::graphIntersection(const graph& graph_in) const
+    {
+        return (*this ^ graph_in);
+    }
+
+    graph graph::graphDifference(const graph& graph_in) const
+    {
+        return (*this - graph_in);
+    }
+
+    graph graph::graphProduct(const graph& graph_in) const
+    {
+        return (*this * graph_in);
+    }
+
+    graph graph::graphComplement() const
+    {
+        return (!(*this));
+    }

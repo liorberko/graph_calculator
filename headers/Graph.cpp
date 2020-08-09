@@ -77,7 +77,7 @@ graph* graphUnion(const graph* graph_in1, const graph* graph_in2, graph* graph_o
     }
     try
     {
-        (*graph_out) = ((*graph_in1)+(*graph_in2));
+        (*graph_out) = ((*graph_in1).graphUnion(*graph_in2));
     }
     catch(const std::exception& e)
     {
@@ -95,7 +95,7 @@ graph* graphIntersection(const graph* graph_in1, const graph* graph_in2, graph* 
     }
     try
     {
-        (*graph_out) = ((*graph_in1)^(*graph_in2));
+        (*graph_out) = ((*graph_in1).graphIntersection(*graph_in2));
     }
     catch(const std::exception& e)
     {
@@ -114,7 +114,7 @@ graph* graphDifference(const graph* graph_in1, const graph* graph_in2, graph* gr
     }
     try
     {
-        (*graph_out) = ((*graph_in1)-(*graph_in2));
+        (*graph_out) = ((*graph_in1).graphDifference(*graph_in2));
     }
     catch(const std::exception& e)
     {
@@ -132,7 +132,7 @@ graph* graphProduct(const graph* graph_in1, const graph* graph_in2, graph* graph
     }
     try
     {
-        (*graph_out) = ((*graph_in1)*(*graph_in2));
+        (*graph_out) = ((*graph_in1).graphProduct(*graph_in2));
     }
     catch(const std::exception& e)
     {
@@ -149,7 +149,7 @@ graph* graphComplement(const graph* graph_in, graph* graph_out)
     }
     try
     {
-        (*graph_out) = (!(*graph_in));
+        (*graph_out) = ((*graph_in).graphComplement());
     }
     catch(const std::exception& e)
     {

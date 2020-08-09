@@ -41,7 +41,12 @@ public:
     void addEdge(std::string name);
     void addVertic(std::string name);
 
-};
+    graph graphUnion(const graph& graph_in) const;
+    graph graphIntersection(const graph& graph_in) const;
+    graph graphDifference(const graph& graph_in) const;
+    graph graphProduct(const graph& graph_in) const;
+    graph graphComplement() const;
+    };
 
 
 
