@@ -63,6 +63,10 @@ void graphCalculator::print(const std::string name, std::ostream& out) const
 
 void graphCalculator::who(std::ostream& out) const
 {
+    if (graphs.size() == 0)
+    {
+        return;
+    }
     bool is_first = true;
     for (auto element : graphs)
     {

@@ -2,17 +2,19 @@
 #include <fstream>
 
 void startPrograp(std::ostream* out, std::istream* input, bool is_file_mode);
+// void startPrograp(std::ofstream* out, std::ifstream* input, bool is_file_mode);
+
 
 
 int main (int argc, char* argv[])
 {
     bool is_file_mode = true;
-    std::ostream* out;
-    std::istream * input;
     switch (argc)
     {
         case 1:
         {
+            std::ostream* out;
+            std::istream* input;
             is_file_mode = false;
             input = &std::cin;
             out = &std::cout;
@@ -21,6 +23,8 @@ int main (int argc, char* argv[])
         }
         case 3:
         {
+            std::ofstream* out;
+            std::ifstream* input;
             std::ifstream in_file(argv[1]);
             if (!in_file)
             {
@@ -76,6 +80,40 @@ void startPrograp(std::ostream* out, std::istream* input, bool is_file_mode)
             {
                 *out << "Gcalc> ";
             } 
-        }  
+        }
+        line.clear();  
     }
 }
+
+// void startPrograp(std::ofstream* out, std::ifstream* input, bool is_file_mode)
+// {
+//     std::string line;
+//     if (!is_file_mode)
+//     {
+//         *out << "Gcalc> ";
+//     } 
+//     while (std::getline(*input, line))
+//     {
+//         try
+//         {
+//             graphCalculatorParser calculator(line,out);
+//             if (!calculator.applyLine())
+//             {
+//                 break;
+//             }
+//             if (!is_file_mode)
+//             {
+//                 *out << "Gcalc> ";
+//             } 
+//         }
+//         catch(const std::exception& err)
+//         {
+//             *out << err.what() << std::endl;
+//             if (!is_file_mode)
+//             {
+//                 *out << "Gcalc> ";
+//             } 
+//         }  
+//         line.clear(); 
+//     }
+// }

@@ -1,0 +1,25 @@
+who
+who1 = (!!(!!(!({  11ba ,                                                                    11ab | < 11ba,11ab>  } - !(!{lior, berko}))))
+print (who1)
+save  ( who1 , lio+ber )
+print ( {a,c | <c,a>} + who1)
+print2 = ({a,b| } * load  (    lio+ber         ))
+print (print2 - !!!{ c})
+saveG1 = ( load(lio+ber) - lode (lio+ber))
+loadg2 = (print2 ^ saveG1 *!(!{z,c|<z , c>  })
+   print (   loadg2 *(saveG1))
+   who
+delete1 = {a,b | <a,b>}
+delete ( {a,b | <a,b>} )
+print(delete1)
+reset
+print who1
+print (who1)
+g1 = {b,    a|<b,a>        } - {b, c|  }
+print ( g 1)
+1g={a,b|<a,b>}
+g1 = { , bb | }
+print (g1)
+save (!!(!{a,b|<b,a> , <a,b>}) * g1, Gliteral )
+print(  load (Gliteral)   )
+

@@ -162,12 +162,8 @@ bool graphCalculatorParser::applyLine()
                 }
                 graph_name += letter;
             }
-            if (!isLegalSpaceUse(graph_name))
-            {
-                throw WrongSpaceUse();
-            }
-            graph_name = removeSpeces(graph_name);
-            graph::save((memory.get(graph_name)), filename);
+            graph temp = calculatComplexPhrase(graph_name);
+            graph::save(temp, filename);
             return true;
         }
         else
@@ -246,7 +242,7 @@ graph graphCalculatorParser::calculatComplexPhrase(std::string phrase) const
     {
         if (!conteine_only_exclamation_mark_phrase(phrash1))
         {
-            action1 =  findeAndRemoveLasstAction(phrash1);
+            action1 = findeAndRemoveLasstAction(phrash1);
             int exclamation_mark_counter = 0;
             while ((action1 == '+') || (action1 == '-') || (action1 == '*') || (action1 == '^') || (action1 == '!'))
             {
@@ -464,16 +460,26 @@ graph graphCalculatorParser::calculatPhrase
 
 std::string graphCalculatorParser::fechNexPhrase(std::string& input, char& action) const
 {
-    std::string phrase, leftover;
+    std::string phrase, leftover, load ="load";
     bool record_leftover = false;
+    int braket_cuont = 0;
     for (auto letter : input)
     {
+        if (letter == '(')
+        {
+            braket_cuont++;
+        }
+        if (letter == ')')
+        {
+            braket_cuont--;
+        }
         if (record_leftover)
         {
             leftover += letter;
             continue;
         }
-        if ((letter == '+') || (letter == '-') || (letter == '*') || (letter == '^'))
+        if (((letter == '+') || (letter == '-') || (letter == '*') || (letter == '^')) 
+        && (!((braket_cuont > 0) && (phrase.find(load) != std::string::npos))))
         {
             record_leftover = true;
             action = letter;
@@ -491,7 +497,7 @@ std::string graphCalculatorParser::fechNexPhrase(std::string& input, char& actio
 
 graph graphCalculatorParser::calculatMultiPhrase(std::string phrase) const
 {
-    char action;
+    char action = ' ';
     phrase = removeEnter(phrase);
     if (phrase.size() == 0)
     {
@@ -783,7 +789,7 @@ bool isLoadFanction(const std::string& phrase, std::string& filename )
 
 bool firstLetterIsExclamationMark(const std::string& phrase)
 {
-    int res;
+    int res = 0;
     for (auto letter : phrase)
     {
         if (letter == ' ')
