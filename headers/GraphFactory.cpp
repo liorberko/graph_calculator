@@ -274,12 +274,12 @@ graph graph::operator^(const graph& target) const
 graph graph::operator-(const graph& target) const
 {
     graph res_graph = (*this);
-    for (auto vertix : res_graph.vertices)
+    for (auto vertix : target.vertices)
     {
-        if (target.vertices.count(vertix))
+        if (vertices.count(vertix))
         {
             res_graph.vertices.erase(vertix);
-            for (auto edge : res_graph.edges)
+            for (auto edge : edges)
             {
                 if ((edge.first == vertix) || (edge.second == vertix))
                 {
@@ -448,7 +448,7 @@ graph graph::load(std::string filename)
     unsigned num_of_edges;
     infile.read(reinterpret_cast<char*>(&num_of_edges), sizeof(num_of_edges));
     graph res;
-    for (int i = 0; i<num_of_veteces; i++)
+    for (unsigned i = 0; i<num_of_veteces; i++)
     {
         std::string new_vertex = getVertexFromFile(infile);
         if (!isLegalVerticName(new_vertex))
@@ -461,7 +461,7 @@ graph graph::load(std::string filename)
         }
         res.vertices.insert(new_vertex);
     }
-    for (int i=0; i < num_of_edges; i++)
+    for (unsigned i=0; i < num_of_edges; i++)
     {
         std::pair<std::string,std::string> new_edge = getEdgeFromFile(infile);
         if (res.vertices.count(new_edge.first) == 0)
